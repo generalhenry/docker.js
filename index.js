@@ -50,7 +50,7 @@ function genFunction(o) {
     // returns request for streaming
     else if (typeof(opts) === 'object' && typeof(id) === 'undefined') {
       if (opts.id) {
-        path.replace("{{id}}", opts.id)
+        path = path.replace("{{id}}", opts.id)
         delete opts.id
       }
       if (opts.queryParams) {
@@ -65,7 +65,7 @@ function genFunction(o) {
     else if (typeof(opts) === 'object' && typeof(id) === 'function') {
       cb = id
       if (opts.id) {
-        path.replace("{{id}}", opts.id)
+        path = path.replace("{{id}}", opts.id)
         delete opts.id
       }
       if (opts.queryParams) {
