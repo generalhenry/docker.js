@@ -34,6 +34,7 @@ function genFunction(o) {
   // Supported signatures:
   // function("id", cb)
   // function({JSON options}, cb)
+  // function({JSON options})
   // function(cb)
   return function(opts, id, cb) {
     // Signature: function(cb)
@@ -43,6 +44,21 @@ function genFunction(o) {
       request({url: url, json: true, method:method}, function(err, res, json) {
         return checkStatus(err, res, json, cb)
       })
+    }
+
+    // Signature: function(opts)
+    // returns request for streaming
+    else if (typeof(opts) === 'object' && typeof(id) === 'undefined') {
+      if (opts.id) {
+        path.replace(/{{id}}/, opts.id)
+        delete opts.id
+      }
+      if (opts.queryParams) {
+        path += '?' + querystring.stringify(opts.queryParams)
+        delete opts.queryParams
+      }
+      var url = resolve(host, path)
+      return request({url: url, json: opts, method: method})
     }
 
     // Signature: function(opts, cb)
