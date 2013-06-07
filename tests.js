@@ -70,7 +70,7 @@ describe("docker.js", function() {
       ]
 
       it("should list containers", function(done) {
-        var scope = nock(host).get('/containers/ps').reply(200, containers)
+        var scope = nock(host).get('/containers/json').reply(200, containers)
 
         function gotContainers(err, c) {
           expect(err).to.be.null
@@ -86,7 +86,7 @@ describe("docker.js", function() {
       })
 
       it("should error on non-200 from server", function(done) {
-        var scope = nock(host).get('/containers/ps').reply(500, [])
+        var scope = nock(host).get('/containers/json').reply(500, [])
 
         function gotContainers(err, c) {
           expect(err).to.exist
