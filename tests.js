@@ -79,6 +79,24 @@ describe("docker.js", function() {
         docker().listContainers(gotContainers)
       })
 
+      it("should accept the before parameter", function(done) {
+        var scope = nock(host).get('/containers/json?before=8dfafdbc3a40').reply(200, [containers[0]])
+
+        function gotContainers(err, c) {
+          expect(err).to.be.null
+          expect(c).to.have.length(1)
+          expect(c[0]).to.include.keys(Object.keys(containers[0]))
+          scope.done()
+          done()
+        }
+
+        docker().listContainers({
+          queryParams: {
+            before: '8dfafdbc3a40'
+          }
+        }, gotContainers)
+      })
+
       it("should error on non-200 from server", function(done) {
         var scope = nock(host).get('/containers/json').reply(500, [])
 

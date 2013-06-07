@@ -1,6 +1,7 @@
 var async = require('async')
 var request = require('request')
 var resolve = require('url').resolve
+var querystring = require('querystring')
 
 var host
 
@@ -49,7 +50,11 @@ function genFunction(o) {
       cb = id
       if (opts.id) {
         path.replace(/{{id}}/, opts.id)
-        opts.id = undefined
+        delete opts.id
+      }
+      if (opts.queryParams) {
+        path += '?' + querystring.stringify(opts.queryParams)
+        delete opts.queryParams
       }
       var url = resolve(host, path)
       request({url: url, json: opts, method: method}, function(err, res, json) {
