@@ -18,16 +18,17 @@ Registry API: http://docs.docker.io/en/latest/api/registry_api.html
 
 var docker = require('docker.js')({host:"http://localhost:4243"})
 
-function gotContainers(err, containers) {
-    if (err) throw err
-    console.log("Containers: ", containers)
-}
+docker.listContainers(function gotContainers (err, containers) {
+  if (err) throw err
+  console.log("Containers: ", containers)
+})
 
-docker.listContainers(gotContainers)
+stream.pipe(docker.attachToContainer(opts)).pipe(stream)
 
-// Unimplemented yet:
+docker.listContainers(opts, cb)
 docker.createContainer(opts, cb);
 docker.inspectContainer(opts, cb);
+// Untested yet:
 docker.inspectContainerChanges(opts, cb);
 docker.exportContainer(opts, cb);
 docker.startContainer(opts, cb);
