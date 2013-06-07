@@ -58,6 +58,7 @@ function genFunction(o) {
         delete opts.queryParams
       }
       var url = resolve(host, path)
+      console.log(url);
       return request({url: url, json: opts, method: method})
     }
 
