@@ -19,15 +19,15 @@ function genFunction(o) {
   }
 
   function checkStatus(err, res, json, cb) {
-        if (err) return cb(err, null)
-        var s = verifyStatus(res.statusCode.toString())
-        if (!s.status) {
-          var msg = "HTTP response code is " + res.statusCode +
-            " which indicates an error"
-          if (s.msg) msg += ": " + s.msg
-          return cb(msg, json)
-        }
-        cb(null, json)
+    if (err) return cb(err, null)
+    var s = verifyStatus(res.statusCode.toString())
+    if (!s.status) {
+      var msg = "HTTP response code is " + res.statusCode +
+        " which indicates an error"
+      if (s.msg) msg += ": " + s.msg
+      return cb(msg, json)
+    }
+    cb(null, json)
   }
 
   // Supported signatures:
@@ -47,6 +47,10 @@ function genFunction(o) {
     // Signature: function(opts, cb)
     else if (typeof(opts) === 'object' && typeof(id) === 'function') {
       cb = id
+      if (opts.id) {
+        path.replace(/{{id}}/, opts.id)
+        opts.id = undefined
+      }
       var url = resolve(host, path)
       request({url: url, json: opts, method: method}, function(err, res, json) {
         return checkStatus(err, res, json, cb)
@@ -55,10 +59,11 @@ function genFunction(o) {
 
     // Signature: function(id, cb)
     else if (typeof(opts) === 'string' && typeof(id) === 'function') {
-      id = opts
       cb = id
-      var url = resolve(host, path, id)
-      request({url: url, method:method}, function(err, res, json) {
+      id = opts
+      path = path.replace("{{id}}", id)
+      var url = resolve(host, path)
+      request({url: url, json: true, method:method}, function(err, res, json) {
         return checkStatus(err, res, json, cb)
       })
     }
@@ -143,27 +148,27 @@ module.exports = function(opts) {
       codes: {200:true, 400:"bad parameter", 500:"server error"}
     }),
     insertFileImagecodes: genFunction({
-      path: '/images/{{name}}/insert',
+      path: '/images/{{id}}/insert',
       method: 'POST',
       codes: {200:true, 400:"bad parameter", 500:"server error"}
     }),
     inspectImage: genFunction({
-      path: '/images/{{name}}/json',
+      path: '/images/{{id}}/json',
       method: 'GET',
       codes: {200:true, 404:"no such image", 500:"server error"}
     }),
     historyImage: genFunction({
-      path: '/images/{{name}}/history',
+      path: '/images/{{id}}/history',
       method: 'GET',
       codes: {200:true, 404:"no such image", 500:"server error"}
     }),
     tagImage: genFunction({
-      path: '/images/{{name}}/tag',
+      path: '/images/{{id}}/tag',
       method: 'POST',
       codes: {200:true, 400:"bad parameter", 404:"no such image", 500:"server error"}
     }),
     removeImage: genFunction({
-      path: '/images/{{name}}',
+      path: '/images/{{id}}',
       method: 'DELETE',
       codes: {204:true, 404:"no such image", 500:"server error"}
     }),

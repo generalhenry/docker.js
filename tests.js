@@ -5,9 +5,7 @@ var nock = require('nock')
 var host = "http://localhost:4243"
 
 describe("docker.js", function() {
-
   describe("#containers", function() {
-
     describe("#createContainer", function() {
 
       var opts = {
@@ -38,7 +36,6 @@ describe("docker.js", function() {
         var scope = nock(host).post('/containers/create').reply(201, res)
 
         function handler(err, r) {
-
           expect(err).to.be.null
           expect(r).to.include.keys(['Id', 'Warnings'])
           scope.done()
@@ -46,10 +43,8 @@ describe("docker.js", function() {
         }
 
         docker().createContainer(opts, handler)
-
       })
     })
-
     describe("#listContainers", function() {
 
       var containers = [
@@ -82,7 +77,6 @@ describe("docker.js", function() {
         }
 
         docker().listContainers(gotContainers)
-
       })
 
       it("should error on non-200 from server", function(done) {
@@ -96,10 +90,68 @@ describe("docker.js", function() {
         }
 
         docker().listContainers(gotContainers)
-
       })
-
     })
+    describe("#inspectContainer", function () {
 
+      var container = {
+        "Id": "4fa6e0f0c6786287e131c3852c58a2e01cc697a68231826813597e4994f1d6e2",
+        "Created": "2013-05-07T14:51:42.041847+02:00",
+        "Path": "date",
+        "Args": [],
+        "Config": {
+          "Hostname": "4fa6e0f0c678",
+          "User": "",
+          "Memory": 0,
+          "MemorySwap": 0,
+          "AttachStdin": false,
+          "AttachStdout": true,
+          "AttachStderr": true,
+          "PortSpecs": null,
+          "Tty": false,
+          "OpenStdin": false,
+          "StdinOnce": false,
+          "Env": null,
+          "Cmd": [
+            "date"
+          ],
+          "Dns": null,
+          "Image": "base",
+          "Volumes": {},
+          "VolumesFrom": ""
+        },
+        "State": {
+          "Running": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "StartedAt": "2013-05-07T14:51:42.087658+02:01360",
+          "Ghost": false
+        },
+        "Image": "b750fe79269d2ec9a3c593ef05b4332b1d1a02a62b4accb2c21d589ff2f5f2dc",
+        "NetworkSettings": {
+          "IpAddress": "",
+          "IpPrefixLen": 0,
+          "Gateway": "",
+          "Bridge": "",
+          "PortMapping": null
+        },
+        "SysInitPath": "/home/kitty/go/src/github.com/dotcloud/docker/bin/docker",
+        "ResolvConfPath": "/etc/resolv.conf",
+        "Volumes": {}
+      }
+
+      it("should inspect a container", function (done) {
+        var scope = nock(host).get('/containers/4fa6e0f0c678/json').reply(200, container)
+
+        function inspectedContainer (err, c) {
+          expect(err).to.be.null
+          expect(c).to.include.keys(Object.keys(container))
+          scope.done()
+          done()
+        }
+
+        docker().inspectContainer('4fa6e0f0c678', inspectedContainer)
+      })
+    })
   })
 })
