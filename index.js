@@ -7,7 +7,7 @@ var host
 
 function genFunction(o) {
 
-  var path = o.path
+  var basePath = o.path
   var method = o.method
   var statusCodes = o.codes
 
@@ -37,6 +37,7 @@ function genFunction(o) {
   // function({JSON options})
   // function(cb)
   return function(opts, id, cb) {
+    var path = basePath;
     // Signature: function(cb)
     if (typeof(opts) === 'function') {
       cb = opts
