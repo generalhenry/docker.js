@@ -94,7 +94,7 @@ function genFunction(o) {
 
 module.exports = function(opts) {
 
-  host = "http://localhost:4243" || opts.host
+  host = opts.host || "http://localhost:4243";
 
   return {
     // CONTAINER
