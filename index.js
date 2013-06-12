@@ -154,7 +154,7 @@ module.exports = function(opts) {
       codes: {200:true, 404:"no such container", 500:"server error"}
     }),
     removeContainer: genFunction({
-      path: '/containers/{{id}}/remove',
+      path: '/containers/{{id}}',
       method: 'DELETE',
       codes: {204:true, 400:"bad parameter", 404:"no such container", 500:"server error"}
     }),
