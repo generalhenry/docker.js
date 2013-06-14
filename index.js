@@ -3,7 +3,7 @@ var request = require('request')
 var resolve = require('url').resolve
 var querystring = require('querystring')
 
-var host
+var host;
 
 function genFunction(o) {
 
@@ -106,7 +106,7 @@ module.exports = function(opts) {
     createContainer: genFunction({
       path: '/containers/create',
       method: 'POST',
-      codes: {201:true, 404:"no such container", 500:"server error"}
+      codes: {201:true, 404:"no such image", 500:"server error"}
     }),
     inspectContainer: genFunction({
       path: '/containers/{{id}}/json',
