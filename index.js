@@ -192,7 +192,7 @@ module.exports = function(opts) {
     removeImage: genFunction({
       path: '/images/{{id}}',
       method: 'DELETE',
-      codes: {204:true, 404:"no such image", 500:"server error"}
+      codes: {200:true, 404:"no such image", 500:"server error"}
     }),
     searchImages: genFunction({
       path: '/images/search',
