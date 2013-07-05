@@ -131,7 +131,7 @@ module.exports = function(opts) {
     stopContainer: genFunction({
       path: '/containers/{{id}}/stop',
       method: 'POST',
-      codes: {204:true, 404:"no such container", 500:"server error"}
+      codes: {200:true, 204:true, 404:"no such container", 500:"server error"}
     }),
     restartContainer: genFunction({
       path: '/containers/{{id}}/restart',
