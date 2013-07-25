@@ -29,7 +29,8 @@ module.exports = function(opts) {
           var msg = "HTTP response code is " + res.statusCode +
             " which indicates an error"
           if (s.msg) msg += ": " + s.msg
-          return cb(msg, json)
+          var error = new Error(msg);
+          return cb(error, json)
         }
         cb(null, json)
       }
