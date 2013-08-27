@@ -185,6 +185,11 @@ module.exports = function(opts) {
         method: 'GET',
         codes: {200:true, 404:"no such image", 500:"server error"}
       }),
+      pushImage: genFunction({
+        path: '/images/{{id}}/push',
+        method: 'POST',
+        codes: {200:true, 400:"bad parameter", 404:"no such image", 500:"server error"}
+      }),
       tagImage: genFunction({
         path: '/images/{{id}}/tag',
         method: 'POST',
