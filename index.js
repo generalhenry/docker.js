@@ -26,9 +26,7 @@ module.exports = function(opts) {
         if (err) return cb(err, null)
         var s = verifyStatus(res.statusCode.toString())
         if (!s.status) {
-          var msg = "HTTP response code is " + res.statusCode +
-            " which indicates an error"
-          if (s.msg) msg += ": " + s.msg
+          var msg = res.statusCode + " error: " + json.toString();
           var error = new Error(msg);
           return cb(error, json)
         }
