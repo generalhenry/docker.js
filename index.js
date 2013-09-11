@@ -26,7 +26,7 @@ module.exports = function(opts) {
         if (err) return cb(err, null)
         var s = verifyStatus(res.statusCode.toString())
         if (!s.status) {
-          var msg = res.statusCode + " error: " + json.toString();
+          var msg = res.statusCode + " error: " + JSON.stringify(json);
           var error = new Error(msg);
           return cb(error, json)
         }
