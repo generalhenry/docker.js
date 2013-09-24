@@ -1,14 +1,14 @@
 {
   "name": "docker.js",
-  "version": "0.0.2",
-  "description": "wrapper for low-level docker.io http interface",
+  "version": "0.1.0",
+  "description": "wrapper for low-level docker interface",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -R tap tests.js"
+    "test": "./node_modules/mocha/bin/mocha -R spec"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/FrozenRidge/docker.js.git"
+    "url": "git://github.com/generalhenry/docker.js.git"
   },
   "keywords": [
     "docker",
@@ -20,13 +20,8 @@
   "license": "BSD",
   "readmeFilename": "README.md",
   "gitHead": "07221a32f24cfee9232e1b00b7dbe44436f205ec",
-  "dependencies": {
-    "async": "~0.2.8",
-    "request": "~2.21.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "chai": "~1.6.0",
-    "mocha": "~1.9.0",
-    "nock": "~0.18.0"
+    "mocha": "~1.9.0"
   }
 }
